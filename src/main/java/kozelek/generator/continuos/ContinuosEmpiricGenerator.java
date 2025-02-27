@@ -2,20 +2,24 @@ package kozelek.generator.continuos;
 
 import kozelek.generator.IGenerator;
 import kozelek.generator.Distribution;
+import kozelek.generator.SeedGenerator;
 
 import java.util.Random;
 
 public class ContinuosEmpiricGenerator implements IGenerator<Double> {
-    private ContinuosGenerator[] generators;
+    private ContinuosUniformGenerator[] generators;
     private Random probRand;
     private Distribution[] dists;
-    public ContinuosEmpiricGenerator(Distribution[] dists) {
-        this.generators = new ContinuosGenerator[dists.length];
+
+    public ContinuosEmpiricGenerator(Distribution[] dists, SeedGenerator seedGenerator) {
+        this.generators = new ContinuosUniformGenerator[dists.length];
         this.dists = dists;
+
         for (int i = 0; i < dists.length; i++) {
-            this.generators[i] = new ContinuosGenerator(this.dists[i].getMin(), this.dists[i].getMax());
+            this.generators[i] = new ContinuosUniformGenerator(this.dists[i].getMin(), this.dists[i].getMax(), seedGenerator);
         }
-        this.probRand = new Random();
+
+        this.probRand = new Random(seedGenerator.sample());
     }
 
     @Override
