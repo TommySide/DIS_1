@@ -1,12 +1,11 @@
 package kozelek;
 
 import kozelek.generator.SeedGenerator;
+import mc.MonteCarlo;
 
 public class Main {
     public static void main(String[] args) {
-        SeedGenerator seedGenerator = new SeedGenerator();
-        for (int i = 0; i < 10; i++) {
-            System.out.println(seedGenerator.sample());
-        }
+        MonteCarlo mc = new MonteCarlo(100000);
+        mc.simuluj();
     }
 }

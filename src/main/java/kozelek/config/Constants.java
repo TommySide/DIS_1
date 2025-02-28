@@ -3,6 +3,16 @@ package kozelek.config;
 import kozelek.generator.Distribution;
 
 public class Constants {
+    public static final int TLMICE_COUNT = 100;
+    public static final int BRZDY_COUNT = 200;
+    public static final int SVETLA_COUNT = 150;
+
+    public static final double TLMICE_PRICE_PD = 0.2;
+    public static final double BRZDY_PRICE_PD = 0.3;
+    public static final double SVETLA_PRICE_PD = 0.25;
+
+    public static final double POKUTA_KS = 0.3;
+
     public static final int TLMICE_MIN = 50;
     public static final int TLMICE_MAX = 100;
 
