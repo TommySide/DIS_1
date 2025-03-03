@@ -1,12 +1,20 @@
 package mc.strategies;
 
-public class StrategyA extends Strategy {
+public class StrategyC extends Strategy {
     @Override
     public void run() {
         double deliveryChance = 0.0;
+        double chance = 0.0;
         for (int i = 0; i < 30; i++) {
-            deliveryChance = this.sampleDodavatel1(i);
-            double chance = this.randDodavatel1.nextDouble();
+            // parny
+            if (i % 2 == 0) {
+                // dod 2
+                deliveryChance = this.sampleDodavatel2(i);
+                chance = this.randDodavatel2.nextDouble();
+            } else {
+                deliveryChance = this.sampleDodavatel1(i);
+                chance = this.randDodavatel1.nextDouble();
+            }
             if (chance < deliveryChance) {
                 this.delivery();
             }

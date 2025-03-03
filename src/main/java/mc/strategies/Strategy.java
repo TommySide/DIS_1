@@ -67,8 +67,22 @@ public abstract class Strategy {
         skladSvetla = 0;
     }
 
+    public double sampleDodavatel1(int week) {
+        if (week < 10)
+            return this.randDodavatel1_10.sample();
+        else
+            return this.randDodavetel1_11.sample();
+    }
+
+    public double sampleDodavatel2(int week) {
+        if (week < 15)
+            return this.randDodavatel2_15.sample();
+        else
+            return this.randDodavatel2_16.sample();
+    }
+
     public void createGenerators() {
-        SeedGenerator seed = new SeedGenerator();
+        SeedGenerator seed = new SeedGenerator(5);
 
         this.randTlmice = new DiscreteUniformGenerator(Constants.TLMICE_MIN, Constants.TLMICE_MAX, seed);
         this.randBrzdy = new DiscreteUniformGenerator(Constants.BRZDY_MIN, Constants.BRZDY_MAX, seed);

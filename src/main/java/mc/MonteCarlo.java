@@ -45,7 +45,7 @@ public class MonteCarlo extends SimulationCore {
     @Override
     public void afterReplications() {
         for (int i = 0; i < strategies.length; i++) {
-            System.out.format("Strategia %d: %.2f\n", i, totalCosts[i] / currentRep);
+            System.out.format("Strategia %c: %.2f\n", i + 'A', totalCosts[i] / currentRep);
         }
     }
 }
