@@ -1,7 +1,7 @@
 package mc;
 
 public abstract class SimulationCore {
-    private final int numberOfReps;
+    protected final int numberOfReps;
     private volatile boolean stopped = false;
     public SimulationCore(int numberOfReps) {
         this.numberOfReps = numberOfReps;
