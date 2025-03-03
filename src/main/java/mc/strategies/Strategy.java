@@ -69,16 +69,16 @@ public abstract class Strategy {
 
     public double sampleDodavatel1(int week) {
         if (week < 10)
-            return this.randDodavatel1_10.sample();
+            return this.randDodavatel1_10.sample() / 100;
         else
-            return this.randDodavetel1_11.sample();
+            return this.randDodavetel1_11.sample() / 100;
     }
 
     public double sampleDodavatel2(int week) {
         if (week < 15)
-            return this.randDodavatel2_15.sample();
+            return this.randDodavatel2_15.sample() / 100;
         else
-            return this.randDodavatel2_16.sample();
+            return this.randDodavatel2_16.sample() / 100;
     }
 
     public void createGenerators() {
@@ -94,8 +94,8 @@ public abstract class Strategy {
         this.randDodavatel2_15 = new ContinuosEmpiricGenerator(Constants.DISTRIBUTIONS_DODAVATEL2_15, seed);
         this.randDodavatel2_16 = new ContinuosEmpiricGenerator(Constants.DISTRIBUTIONS_DODAVATEL2_16, seed);
 
-        this.randDodavatel1 = new Random();
-        this.randDodavatel2 = new Random();
+        this.randDodavatel1 = new Random(seed.sample());
+        this.randDodavatel2 = new Random(seed.sample());
     }
 
     public double getNaklady() {
