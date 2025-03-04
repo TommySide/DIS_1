@@ -1,4 +1,4 @@
-package mc;
+package kozelek.mc;
 
 public abstract class SimulationCore {
     protected final int numberOfReps;

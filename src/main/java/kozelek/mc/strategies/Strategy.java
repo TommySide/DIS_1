@@ -1,4 +1,4 @@
-package mc.strategies;
+package kozelek.mc.strategies;
 
 import kozelek.config.Constants;
 import kozelek.generator.SeedGenerator;
@@ -55,9 +55,9 @@ public abstract class Strategy {
     }
 
     public void calculateCost(int times) {
-        naklady += (skladTlmice * Constants.TLMICE_PRICE_PD
+        naklady += ((skladTlmice * Constants.TLMICE_PRICE_PD
                 + skladBrzd * Constants.BRZDY_PRICE_PD
-                + skladSvetla * Constants.SVETLA_PRICE_PD) * times;
+                + skladSvetla * Constants.SVETLA_PRICE_PD) * times);
     }
 
     public void clear() {
@@ -81,8 +81,13 @@ public abstract class Strategy {
             return this.randDodavatel2_16.sample() / 100;
     }
 
-    public void createGenerators() {
-        SeedGenerator seed = new SeedGenerator(5);
+    public void createGenerators(Long s) {
+        SeedGenerator seed;
+        if (s == null)
+            seed = new SeedGenerator();
+        else
+            seed = new SeedGenerator(s);
+
 
         this.randTlmice = new DiscreteUniformGenerator(Constants.TLMICE_MIN, Constants.TLMICE_MAX, seed);
         this.randBrzdy = new DiscreteUniformGenerator(Constants.BRZDY_MIN, Constants.BRZDY_MAX, seed);

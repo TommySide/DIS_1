@@ -1,4 +1,4 @@
-package mc.strategies;
+package kozelek.mc.strategies;
 
 public class StrategyA extends Strategy {
     @Override

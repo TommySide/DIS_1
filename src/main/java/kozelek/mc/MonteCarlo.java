@@ -1,17 +1,22 @@
-package mc;
+package kozelek.mc;
 
-import mc.strategies.Strategy;
+import kozelek.gui.ChartUpdateListener;
+import kozelek.mc.strategies.Strategy;
 
 public class MonteCarlo extends SimulationCore {
     private final double[] totalCosts;
     private final Strategy[] strategies;
+    private ChartUpdateListener listener;
 
     protected int currentRep;
+    private final Long seed;
 
-    public MonteCarlo(int numberOfReps, Strategy[] strategies) {
+    public MonteCarlo(int numberOfReps, Long seed, Strategy[] strategies, ChartUpdateListener listener) {
         super(numberOfReps);
         this.strategies = strategies;
         totalCosts = new double[strategies.length];
+        this.seed = seed;
+        this.listener = listener;
     }
 
     @Override
@@ -25,7 +30,7 @@ public class MonteCarlo extends SimulationCore {
     @Override
     public void beforeReplications() {
         for (Strategy strategy : strategies) {
-            strategy.createGenerators();
+            strategy.createGenerators(seed);
         }
         currentRep = 0;
     }
@@ -40,6 +45,9 @@ public class MonteCarlo extends SimulationCore {
     @Override
     public void afterReplication() {
         currentRep++;
+        if (currentRep % 10000 == 0) {
+            this.listener.updateChart(totalCosts, currentRep);
+        }
     }
 
     @Override

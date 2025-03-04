@@ -1,13 +1,13 @@
-package mc.strategies;
+package kozelek.mc.strategies;
 
-public class StrategyD extends Strategy {
+public class StrategyC extends Strategy {
     @Override
     public void run() {
         double deliveryChance = 0.0;
         double chance = 0.0;
         for (int i = 0; i < 30; i++) {
-            // neparny
-            if (i % 2 != 0) {
+            // parny
+            if (i % 2 == 0) {
                 // dod 2
                 deliveryChance = this.sampleDodavatel2(i);
                 chance = this.randDodavatel2.nextDouble();
