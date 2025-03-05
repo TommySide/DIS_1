@@ -7,6 +7,10 @@ public abstract class SimulationCore {
         this.numberOfReps = numberOfReps;
     }
 
+    public int getNumberOfReps() {
+        return numberOfReps;
+    }
+
     public void simuluj() {
         this.beforeReplications();
         for (int i = 0; i < this.numberOfReps; i++) {

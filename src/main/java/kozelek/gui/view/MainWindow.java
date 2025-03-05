@@ -26,18 +26,18 @@ public class MainWindow extends JFrame {
 
     public MainWindow() {
         setTitle("Start Window");
-        setSize(1600, 800);
-        setMinimumSize(new Dimension(1600, 800));
+        setSize(1800, 950);
+        setMinimumSize(new Dimension(1800, 950));
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         add(panel1);
     }
 
     private void createUIComponents() {
-        this.chartA = createChart("A");
-        this.chartB = createChart("B");
-        this.chartC = createChart("C");
-        this.chartD = createChart("C");
+        this.chartA = createChart("Str. A");
+        this.chartB = createChart("Str. B");
+        this.chartC = createChart("Str. C");
+        this.chartD = createChart("Str. D");
 
         chartPanel1 = new ChartPanel(chartA);
         chartPanel2 = new ChartPanel(chartB);

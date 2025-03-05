@@ -1,5 +1,6 @@
 package kozelek.gui.controller;
 
+import kozelek.config.Constants;
 import kozelek.gui.ChartUpdateListener;
 import kozelek.gui.view.MainWindow;
 import kozelek.mc.MonteCarlo;
@@ -23,7 +24,8 @@ public class MainController implements ChartUpdateListener {
     private final Strategy b = new StrategyB();
     private final Strategy c = new StrategyC();
     private final Strategy d = new StrategyD();
-    private final Strategy[] strategies = new Strategy[]{a, b, c, d};
+    private final Strategy e = new StrategyE();
+    private final Strategy[] strategies = new Strategy[]{a, b, c, d, e};
 
     public MainController(MainWindow view) {
         this.view = view;
@@ -66,7 +68,7 @@ public class MainController implements ChartUpdateListener {
                 XYSeries series = ((XYSeriesCollection) charts[i].getXYPlot().getDataset()).getSeries(0);
 
                 series.add(rep, totalCosts[i] / rep);
-                double offsetFactor = 0.5;
+                double offsetFactor = Constants.OFFSET_FACTOR;
 
                 this.view.updateRange(charts[i], series, offsetFactor);
                 this.labels[i].setText(String.format("%.2f", totalCosts[i] / rep));

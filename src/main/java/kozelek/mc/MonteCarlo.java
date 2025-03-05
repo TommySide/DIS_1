@@ -1,12 +1,13 @@
 package kozelek.mc;
 
+import kozelek.config.Constants;
 import kozelek.gui.ChartUpdateListener;
 import kozelek.mc.strategies.Strategy;
 
 public class MonteCarlo extends SimulationCore {
     private final double[] totalCosts;
     private final Strategy[] strategies;
-    private ChartUpdateListener listener;
+    private final ChartUpdateListener listener;
 
     protected int currentRep;
     private final Long seed;
@@ -29,8 +30,9 @@ public class MonteCarlo extends SimulationCore {
 
     @Override
     public void beforeReplications() {
-        for (Strategy strategy : strategies) {
-            strategy.createGenerators(seed);
+        for (int i = 0; i < strategies.length; i++) {
+            strategies[i].createGenerators(seed);
+            totalCosts[i] = 0;
         }
         currentRep = 0;
     }
@@ -45,7 +47,8 @@ public class MonteCarlo extends SimulationCore {
     @Override
     public void afterReplication() {
         currentRep++;
-        if (currentRep % 10000 == 0) {
+        if (currentRep >= (getNumberOfReps() * Constants.PERCENTAGE_CUT_DATA) &&
+                currentRep % (getNumberOfReps() * Constants.PERCENTAGE_UPDATE_DATA) == 0) {
             this.listener.updateChart(totalCosts, currentRep);
         }
     }
