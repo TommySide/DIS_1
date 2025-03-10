@@ -58,6 +58,7 @@ public class MainWindow extends JFrame {
                 dataset
         );
         chart.getXYPlot().getRangeAxis().setAutoRange(false);
+        chart.setID(title.substring(title.length() - 1));
         return chart;
     }
 
@@ -99,6 +100,10 @@ public class MainWindow extends JFrame {
 
     public JLabel[] getLabels() {
         return new JLabel[]{labelA, labelB, labelC, labelD, labelE};
+    }
+
+    public ChartPanel[] getChartPanels() {
+        return new ChartPanel[]{chartPanel1, chartPanel2, chartPanel3, chartPanel4, chartPanel5};
     }
 
     public JButton getStartButton() {

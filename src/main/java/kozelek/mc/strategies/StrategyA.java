@@ -1,7 +1,5 @@
 package kozelek.mc.strategies;
 
-import kozelek.gui.interfaces.ChartDailyUpdateListener;
-
 public class StrategyA extends Strategy {
 
     @Override

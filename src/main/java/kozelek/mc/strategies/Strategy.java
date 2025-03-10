@@ -6,7 +6,6 @@ import kozelek.generator.continuos.ContinuosEmpiricGenerator;
 import kozelek.generator.continuos.ContinuosUniformGenerator;
 import kozelek.generator.discrete.DiscreteEmpiricGenerator;
 import kozelek.generator.discrete.DiscreteUniformGenerator;
-import kozelek.gui.interfaces.ChartDailyUpdateListener;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -14,8 +13,6 @@ import java.util.Random;
 public abstract class Strategy {
     protected int skladTlmice, skladBrzd, skladSvetla;
     protected double naklady;
-    protected ArrayList<Double> nakladyPerRun = new ArrayList<>();
-
     // suciastky
     protected DiscreteUniformGenerator randTlmice;
     protected DiscreteUniformGenerator randBrzdy;
@@ -31,26 +28,31 @@ public abstract class Strategy {
     protected ContinuosEmpiricGenerator randDodavatel2_16;
     protected Random randDodavatel2;
 
-    public boolean day = false;
+    protected boolean day;
+    private final ArrayList<Double> nakladyPerRun = new ArrayList<>(210);
 
     public abstract void run();
 
     public void buyer() {
+        double tempNaklady = 0.0;
         skladTlmice -= this.randTlmice.sample();
         skladBrzd -= this.randBrzdy.sample();
         skladSvetla -= this.randSvetla.sample();
         if (skladTlmice < 0) {
-            naklady += Math.abs(Constants.POKUTA_KS * skladTlmice);
+            tempNaklady += Math.abs(Constants.POKUTA_KS * skladTlmice);
             skladTlmice = 0;
         }
         if (skladBrzd < 0) {
-            naklady += Math.abs(Constants.POKUTA_KS * skladBrzd);
+            tempNaklady += Math.abs(Constants.POKUTA_KS * skladBrzd);
             skladBrzd = 0;
         }
         if (skladSvetla < 0) {
-            naklady += Math.abs(Constants.POKUTA_KS * skladSvetla);
+            tempNaklady += Math.abs(Constants.POKUTA_KS * skladSvetla);
             skladSvetla = 0;
         }
+        naklady += tempNaklady;
+        if (!day)
+            this.nakladyPerRun.add(tempNaklady + this.nakladyPerRun.getLast());
     }
 
     public void delivery() {
@@ -68,7 +70,11 @@ public abstract class Strategy {
         if (!day) {
             for (int i = 0; i < times; i++) {
                 if (!nakladyPerRun.isEmpty())
-                    nakladyPerRun.add(temp + nakladyPerRun.getLast());
+                    if (times == 3 && i == 0) {
+                        double last = nakladyPerRun.getLast();
+                        nakladyPerRun.set(nakladyPerRun.size() - 1, temp + last);
+                    } else
+                        nakladyPerRun.add(temp + nakladyPerRun.getLast());
                 else
                     nakladyPerRun.add(temp);
             }
@@ -124,5 +130,9 @@ public abstract class Strategy {
 
     public ArrayList<Double> getNakladyPerRun() {
         return nakladyPerRun;
+    }
+
+    public void setDay(boolean value) {
+        this.day = value;
     }
 }

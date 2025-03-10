@@ -58,10 +58,5 @@ public class MonteCarlo extends SimulationCore {
         for (int i = 0; i < strategies.length; i++) {
             System.out.format("Strategia %c: %.2f\n", i + 'A', totalCosts[i] / currentRep);
         }
-        int i = 0;
-        for (double day : strategies[0].getNakladyPerRun()) {
-            System.out.printf("%d: %.2f\n", i, day);
-            i++;
-        }
     }
 }

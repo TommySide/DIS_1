@@ -2,14 +2,19 @@ package kozelek.gui.controller;
 
 import kozelek.config.Constants;
 import kozelek.gui.interfaces.ChartUpdateListener;
+import kozelek.gui.view.DayWindow;
 import kozelek.gui.view.MainWindow;
 import kozelek.mc.MonteCarlo;
 import kozelek.mc.strategies.*;
+import org.jfree.chart.ChartMouseEvent;
+import org.jfree.chart.ChartMouseListener;
+import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class MainController implements ChartUpdateListener {
     private final MainWindow view;
@@ -17,6 +22,7 @@ public class MainController implements ChartUpdateListener {
 
     private final JFreeChart[] charts;
     private final JLabel[] labels;
+    private final ChartPanel[] panels;
 
     private final Strategy a = new StrategyA();
     private final Strategy b = new StrategyB();
@@ -34,6 +40,41 @@ public class MainController implements ChartUpdateListener {
 
         charts = this.view.getCharts();
         labels = this.view.getLabels();
+        panels = this.view.getChartPanels();
+        for (ChartPanel panel : panels) {
+            panel.addChartMouseListener(new ChartMouseListener() {
+                @Override
+                public void chartMouseClicked(ChartMouseEvent chartMouseEvent) {
+                    JFreeChart clicked = chartMouseEvent.getChart();
+                    showDailyChart(clicked.getID());
+                }
+
+                @Override
+                public void chartMouseMoved(ChartMouseEvent chartMouseEvent) {
+                    return;
+                }
+            });
+        }
+    }
+
+    private void showDailyChart(String id) {
+        System.out.println(id);
+        ArrayList<Double> data;
+        switch (id) {
+            case "A" -> data = a.getNakladyPerRun();
+            case "B" -> data = b.getNakladyPerRun();
+            case "C" -> data = c.getNakladyPerRun();
+            case "D" -> data = d.getNakladyPerRun();
+            case "E" -> data = e.getNakladyPerRun();
+            default -> data = null;
+        }
+        if (data != null) {
+            DayWindow dw = new DayWindow(data);
+            dw.setVisible(true);
+            for (Double d : data) {
+                System.out.println(d.toString());
+            }
+        }
     }
 
     private void stopSimulation() {
@@ -47,6 +88,9 @@ public class MainController implements ChartUpdateListener {
         if (!text.isEmpty()) {
             int repCount = Integer.parseInt(text);
             this.monteCarlo = new MonteCarlo(repCount, null, strategies, MainController.this);
+            for (Strategy strategy : strategies) {
+                strategy.setDay(false);
+            }
             SwingWorker<Void, Void> worker = new SwingWorker<>() {
                 @Override
                 protected Void doInBackground() {

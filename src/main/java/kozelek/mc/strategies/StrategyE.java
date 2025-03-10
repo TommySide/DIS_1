@@ -1,7 +1,6 @@
 package kozelek.mc.strategies;
 
 import kozelek.config.Constants;
-import kozelek.gui.interfaces.ChartDailyUpdateListener;
 
 public class StrategyE extends Strategy {
     // 10 tyz. dod 1
