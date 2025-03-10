@@ -6,8 +6,9 @@ import kozelek.generator.SeedGenerator;
 import java.util.Random;
 
 public class ContinuosUniformGenerator implements IGenerator<Double> {
-    private double min, max;
-    private Random random;
+    private final double min;
+    private final double max;
+    private final Random random;
 
     public ContinuosUniformGenerator(double min, double max, SeedGenerator seedGenerator) {
         this.min = min;

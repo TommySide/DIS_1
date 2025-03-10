@@ -24,6 +24,7 @@ public class MainWindow extends JFrame {
     private ChartPanel chartPanel5;
     private JLabel labelE;
     private JPanel panel;
+    private JButton fileButton;
     private JFreeChart chartA, chartB, chartC, chartD, chartE;
 
     public MainWindow() {
@@ -116,5 +117,9 @@ public class MainWindow extends JFrame {
 
     public JTextField getFieldRepCount() {
         return fieldRepCount;
+    }
+
+    public JButton getFileButton() {
+        return fileButton;
     }
 }

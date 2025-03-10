@@ -1,9 +1,9 @@
 package kozelek.generator;
 
 public class Distribution {
-    private double min;
-    private double max;
-    private double probability;
+    private final double min;
+    private final double max;
+    private final double probability;
 
     public Distribution(double min, double max, double probability) {
         this.min = min;

@@ -14,6 +14,8 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.File;
 import java.util.ArrayList;
 
 public class MainController implements ChartUpdateListener {
@@ -22,13 +24,12 @@ public class MainController implements ChartUpdateListener {
 
     private final JFreeChart[] charts;
     private final JLabel[] labels;
-    private final ChartPanel[] panels;
 
     private final Strategy a = new StrategyA();
     private final Strategy b = new StrategyB();
     private final Strategy c = new StrategyC();
     private final Strategy d = new StrategyD();
-    private final Strategy e = new StrategyE("str.csv");
+    private final StrategyE e = new StrategyE("str.csv");
     private final Strategy[] strategies = new Strategy[]{a, b, c, d, e};
 
     public MainController(MainWindow view) {
@@ -37,10 +38,11 @@ public class MainController implements ChartUpdateListener {
 
         this.view.getStartButton().addActionListener(_ -> startSimulation());
         this.view.getKoniecButton().addActionListener(_ -> stopSimulation());
+        this.view.getFileButton().addActionListener(_ -> getSelectedFile());
 
         charts = this.view.getCharts();
         labels = this.view.getLabels();
-        panels = this.view.getChartPanels();
+        ChartPanel[] panels = this.view.getChartPanels();
         for (ChartPanel panel : panels) {
             panel.addChartMouseListener(new ChartMouseListener() {
                 @Override
@@ -51,9 +53,20 @@ public class MainController implements ChartUpdateListener {
 
                 @Override
                 public void chartMouseMoved(ChartMouseEvent chartMouseEvent) {
-                    return;
                 }
             });
+        }
+    }
+
+    private void getSelectedFile() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+        fileChooser.setFileFilter(new FileNameExtensionFilter("CSV Files", "CSV"));
+
+        int option = fileChooser.showOpenDialog(null);
+        if (option == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            e.loadDataFromCSV(file.getAbsolutePath());
         }
     }
 

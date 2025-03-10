@@ -1,19 +1,19 @@
 package kozelek.mc.strategies;
 
-import kozelek.config.Constants;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Deque;
 
 public class StrategyE extends Strategy {
-    private final ArrayList<Integer> dodavatelia = new ArrayList<>();
-    private final ArrayList<Integer> tlmiceList = new ArrayList<>();
-    private final ArrayList<Integer> brzdyList = new ArrayList<>();
-    private final ArrayList<Integer> svetlaList = new ArrayList<>();
+    private ArrayList<Integer> dodavatelia;
+    private ArrayList<Integer> tlmiceList ;
+    private ArrayList<Integer> brzdyList;
+    private ArrayList<Integer> svetlaList;
 
+    /// CSV should be formatted like:
+    ///
+    /// dodavatel;tlmice;brzdy;svetla
     public StrategyE(String filename) {
         this.loadDataFromCSV(filename);
     }
@@ -46,9 +46,14 @@ public class StrategyE extends Strategy {
         day = true;
     }
 
-    private void loadDataFromCSV(String filePath) {
+    public void loadDataFromCSV(String filePath) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
+            dodavatelia = new ArrayList<>();
+            tlmiceList = new ArrayList<>();
+            brzdyList = new ArrayList<>();
+            svetlaList = new ArrayList<>();
+
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(";");
                 if (values.length == 4) {

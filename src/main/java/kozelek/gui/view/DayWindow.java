@@ -15,7 +15,7 @@ public class DayWindow extends JFrame {
     private JPanel panel1;
     private JButton goBackButton;
     private JFreeChart chart;
-    private ArrayList<Double> data;
+    private final ArrayList<Double> data;
 
     public DayWindow(ArrayList<Double> dayData) {
         setTitle("One day Window");

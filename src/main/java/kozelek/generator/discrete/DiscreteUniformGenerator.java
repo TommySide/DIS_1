@@ -6,8 +6,9 @@ import kozelek.generator.SeedGenerator;
 import java.util.Random;
 
 public class DiscreteUniformGenerator implements IGenerator<Integer> {
-    private int min, max;
-    private Random rand;
+    private final int min;
+    private final int max;
+    private final Random rand;
     public DiscreteUniformGenerator(int min, int max, SeedGenerator seedGenerator) {
         this.min = min;
         this.max = max;
