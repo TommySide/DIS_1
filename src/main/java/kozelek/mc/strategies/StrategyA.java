@@ -1,6 +1,9 @@
 package kozelek.mc.strategies;
 
+import kozelek.gui.interfaces.ChartDailyUpdateListener;
+
 public class StrategyA extends Strategy {
+
     @Override
     public void run() {
         double deliveryChance = 0.0;
@@ -20,5 +23,6 @@ public class StrategyA extends Strategy {
             // naklady pi - ne
             this.calculateCost(3);
         }
+        day = true;
     }
 }

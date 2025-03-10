@@ -21,16 +21,17 @@ public class MainWindow extends JFrame {
     private JLabel labelB;
     private JLabel labelC;
     private JLabel labelD;
-    private JPanel panel1;
-    private JFreeChart chartA, chartB, chartC, chartD;
+    private ChartPanel chartPanel5;
+    private JLabel labelE;
+    private JPanel panel;
+    private JFreeChart chartA, chartB, chartC, chartD, chartE;
 
     public MainWindow() {
-        setTitle("Start Window");
-        setSize(1800, 950);
-        setMinimumSize(new Dimension(1800, 950));
+        setTitle("Main Window");
+        setMinimumSize(new Dimension(1500, 900));
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        add(panel1);
+        add(panel);
     }
 
     private void createUIComponents() {
@@ -38,11 +39,13 @@ public class MainWindow extends JFrame {
         this.chartB = createChart("Str. B");
         this.chartC = createChart("Str. C");
         this.chartD = createChart("Str. D");
+        this.chartE = createChart("Str. E");
 
         chartPanel1 = new ChartPanel(chartA);
         chartPanel2 = new ChartPanel(chartB);
         chartPanel3 = new ChartPanel(chartC);
         chartPanel4 = new ChartPanel(chartD);
+        chartPanel5 = new ChartPanel(chartE);
     }
 
     public JFreeChart createChart(String title) {
@@ -63,11 +66,13 @@ public class MainWindow extends JFrame {
         resetChart(chartB);
         resetChart(chartC);
         resetChart(chartD);
+        resetChart(chartE);
 
         labelA.setText("");
         labelB.setText("");
         labelC.setText("");
         labelD.setText("");
+        labelE.setText("");
     }
 
     public void updateRange(JFreeChart chart, XYSeries series, double offset) {
@@ -88,44 +93,12 @@ public class MainWindow extends JFrame {
         chart.getXYPlot().getRangeAxis().setAutoRange(true);
     }
 
-    public JLabel getLabelA() {
-        return labelA;
-    }
-
-    public JLabel getLabelB() {
-        return labelB;
-    }
-
-    public JLabel getLabelC() {
-        return labelC;
-    }
-
-    public JLabel getLabelD() {
-        return labelD;
-    }
-
-    public JFreeChart getChartA() {
-        return chartA;
-    }
-
-    public JFreeChart getChartB() {
-        return chartB;
-    }
-
-    public JFreeChart getChartC() {
-        return chartC;
-    }
-
-    public JFreeChart getChartD() {
-        return chartD;
-    }
-
     public JFreeChart[] getCharts() {
-        return new JFreeChart[]{chartA, chartB, chartC, chartD};
+        return new JFreeChart[]{chartA, chartB, chartC, chartD, chartE};
     }
 
     public JLabel[] getLabels() {
-        return new JLabel[]{labelA, labelB, labelC, labelD};
+        return new JLabel[]{labelA, labelB, labelC, labelD, labelE};
     }
 
     public JButton getStartButton() {

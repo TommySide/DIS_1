@@ -6,12 +6,15 @@ import kozelek.generator.continuos.ContinuosEmpiricGenerator;
 import kozelek.generator.continuos.ContinuosUniformGenerator;
 import kozelek.generator.discrete.DiscreteEmpiricGenerator;
 import kozelek.generator.discrete.DiscreteUniformGenerator;
+import kozelek.gui.interfaces.ChartDailyUpdateListener;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public abstract class Strategy {
     protected int skladTlmice, skladBrzd, skladSvetla;
     protected double naklady;
+    protected ArrayList<Double> nakladyPerRun = new ArrayList<>();
 
     // suciastky
     protected DiscreteUniformGenerator randTlmice;
@@ -27,6 +30,8 @@ public abstract class Strategy {
     protected ContinuosEmpiricGenerator randDodavatel2_15;
     protected ContinuosEmpiricGenerator randDodavatel2_16;
     protected Random randDodavatel2;
+
+    public boolean day = false;
 
     public abstract void run();
 
@@ -55,9 +60,19 @@ public abstract class Strategy {
     }
 
     public void calculateCost(int times) {
-        naklady += ((skladTlmice * Constants.TLMICE_PRICE_PD
+        double temp = (skladTlmice * Constants.TLMICE_PRICE_PD
                 + skladBrzd * Constants.BRZDY_PRICE_PD
-                + skladSvetla * Constants.SVETLA_PRICE_PD) * times);
+                + skladSvetla * Constants.SVETLA_PRICE_PD);
+        naklady += temp * times;
+
+        if (!day) {
+            for (int i = 0; i < times; i++) {
+                if (!nakladyPerRun.isEmpty())
+                    nakladyPerRun.add(temp + nakladyPerRun.getLast());
+                else
+                    nakladyPerRun.add(temp);
+            }
+        }
     }
 
     public void clear() {
@@ -105,5 +120,9 @@ public abstract class Strategy {
 
     public double getNaklady() {
         return naklady;
+    }
+
+    public ArrayList<Double> getNakladyPerRun() {
+        return nakladyPerRun;
     }
 }

@@ -1,7 +1,7 @@
 package kozelek.mc;
 
 import kozelek.config.Constants;
-import kozelek.gui.ChartUpdateListener;
+import kozelek.gui.interfaces.ChartUpdateListener;
 import kozelek.mc.strategies.Strategy;
 
 public class MonteCarlo extends SimulationCore {
@@ -57,6 +57,11 @@ public class MonteCarlo extends SimulationCore {
     public void afterReplications() {
         for (int i = 0; i < strategies.length; i++) {
             System.out.format("Strategia %c: %.2f\n", i + 'A', totalCosts[i] / currentRep);
+        }
+        int i = 0;
+        for (double day : strategies[0].getNakladyPerRun()) {
+            System.out.printf("%d: %.2f\n", i, day);
+            i++;
         }
     }
 }

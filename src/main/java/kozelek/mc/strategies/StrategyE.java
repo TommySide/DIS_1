@@ -1,29 +1,21 @@
 package kozelek.mc.strategies;
 
 import kozelek.config.Constants;
+import kozelek.gui.interfaces.ChartDailyUpdateListener;
 
 public class StrategyE extends Strategy {
-    // 10 tyz. dod 2
+    // 10 tyz. dod 1
     // 11 - 15 dod 1
-    // 15 -> dod 2?
+    // 15 -> dod 1?
     @Override
     public void run() {
         double deliveryChance = 0.0;
         double chance = 0.0;
         for (int i = 0; i < 30; i++) {
-            if (i < 10) {
-                // dod 2
-                deliveryChance = this.sampleDodavatel2(i);
-                chance = this.randDodavatel2.nextDouble();
-            } else if (i < 15) {
-                // dod 1
-                deliveryChance = this.sampleDodavatel1(i);
-                chance = this.randDodavatel1.nextDouble();
-            } else {
-                // dod 2
-                deliveryChance = this.sampleDodavatel2(i);
-                chance = this.randDodavatel2.nextDouble();
-            }
+            // dod 1
+            deliveryChance = this.sampleDodavatel1(i);
+            chance = this.randDodavatel1.nextDouble();
+
             if (chance < deliveryChance) {
                 this.delivery();
             }
@@ -37,6 +29,7 @@ public class StrategyE extends Strategy {
             // naklady pi - ne
             this.calculateCost(3);
         }
+        day = true;
     }
 
     public void delivery() {

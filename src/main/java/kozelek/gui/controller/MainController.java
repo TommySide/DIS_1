@@ -1,11 +1,10 @@
 package kozelek.gui.controller;
 
 import kozelek.config.Constants;
-import kozelek.gui.ChartUpdateListener;
+import kozelek.gui.interfaces.ChartUpdateListener;
 import kozelek.gui.view.MainWindow;
 import kozelek.mc.MonteCarlo;
 import kozelek.mc.strategies.*;
-import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -14,11 +13,10 @@ import javax.swing.*;
 
 public class MainController implements ChartUpdateListener {
     private final MainWindow view;
-    private int repCount;
     private MonteCarlo monteCarlo;
 
-    private JFreeChart[] charts;
-    private JLabel[] labels;
+    private final JFreeChart[] charts;
+    private final JLabel[] labels;
 
     private final Strategy a = new StrategyA();
     private final Strategy b = new StrategyB();
@@ -31,8 +29,8 @@ public class MainController implements ChartUpdateListener {
         this.view = view;
         this.view.setVisible(true);
 
-        this.view.getStartButton().addActionListener(e -> startSimulation());
-        this.view.getKoniecButton().addActionListener(e -> stopSimulation());
+        this.view.getStartButton().addActionListener(_ -> startSimulation());
+        this.view.getKoniecButton().addActionListener(_ -> stopSimulation());
 
         charts = this.view.getCharts();
         labels = this.view.getLabels();
@@ -47,7 +45,7 @@ public class MainController implements ChartUpdateListener {
 
         String text = this.view.getFieldRepCount().getText();
         if (!text.isEmpty()) {
-            this.repCount = Integer.parseInt(text);
+            int repCount = Integer.parseInt(text);
             this.monteCarlo = new MonteCarlo(repCount, null, strategies, MainController.this);
             SwingWorker<Void, Void> worker = new SwingWorker<>() {
                 @Override
