@@ -73,14 +73,4 @@ public class DayWindow extends JFrame {
         if (range > 0)
             chart.getXYPlot().getRangeAxis().setRange(min - (range * offset), max + (range * offset));
     }
-
-    private void resetChart(JFreeChart chart) {
-        XYSeriesCollection dataset = (XYSeriesCollection) chart.getXYPlot().getDataset();
-        dataset.removeAllSeries();
-
-        XYSeries series = new XYSeries("Price");
-        dataset.addSeries(series);
-
-        chart.getXYPlot().getRangeAxis().setAutoRange(true);
-    }
 }

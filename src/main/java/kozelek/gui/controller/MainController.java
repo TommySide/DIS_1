@@ -28,7 +28,7 @@ public class MainController implements ChartUpdateListener {
     private final Strategy b = new StrategyB();
     private final Strategy c = new StrategyC();
     private final Strategy d = new StrategyD();
-    private final Strategy e = new StrategyE();
+    private final Strategy e = new StrategyE("str.csv");
     private final Strategy[] strategies = new Strategy[]{a, b, c, d, e};
 
     public MainController(MainWindow view) {
@@ -71,9 +71,9 @@ public class MainController implements ChartUpdateListener {
         if (data != null) {
             DayWindow dw = new DayWindow(data);
             dw.setVisible(true);
-            for (Double d : data) {
-                System.out.println(d.toString());
-            }
+//            for (Double d : data) {
+//                System.out.println(d.toString());
+//            }
         }
     }
 
