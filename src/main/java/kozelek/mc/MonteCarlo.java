@@ -51,17 +51,14 @@ public class MonteCarlo extends SimulationCore {
                 currentRep % (getNumberOfReps() * Constants.PERCENTAGE_UPDATE_DATA) == 0) {
             this.listener.updateChart(totalCosts, currentRep);
         }
+//        System.out.format("up %.2f\n", currentRep % (getNumberOfReps() * Constants.PERCENTAGE_UPDATE_DATA));
+//        System.out.format("cut %.2f\n", getNumberOfReps() * Constants.PERCENTAGE_CUT_DATA);
     }
 
     @Override
     public void afterReplications() {
         for (int i = 0; i < strategies.length; i++) {
             System.out.format("Strategia %c: %.2f\n", i + 'A', totalCosts[i] / currentRep);
-        }
-        int i = 0;
-        for (double day : strategies[0].getNakladyPerRun()) {
-            System.out.printf("%d: %.2f\n", i, day);
-            i++;
         }
     }
 }

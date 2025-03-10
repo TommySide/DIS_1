@@ -1,23 +1,37 @@
 package kozelek.mc.strategies;
 
-import kozelek.config.Constants;
-import kozelek.gui.interfaces.ChartDailyUpdateListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class StrategyE extends Strategy {
-    // 10 tyz. dod 1
-    // 11 - 15 dod 1
-    // 15 -> dod 1?
+    private ArrayList<Integer> dodavatelia;
+    private ArrayList<Integer> tlmiceList ;
+    private ArrayList<Integer> brzdyList;
+    private ArrayList<Integer> svetlaList;
+
+    /// CSV should be formatted like:
+    ///
+    /// dodavatel;tlmice;brzdy;svetla
+    public StrategyE(String filename) {
+        this.loadDataFromCSV(filename);
+    }
+
     @Override
     public void run() {
-        double deliveryChance = 0.0;
-        double chance = 0.0;
         for (int i = 0; i < 30; i++) {
             // dod 1
-            deliveryChance = this.sampleDodavatel1(i);
-            chance = this.randDodavatel1.nextDouble();
+            int dodavatel = (i < dodavatelia.size()) ? dodavatelia.get(i) : dodavatelia.getLast();
+            int orderTlmice = (i < tlmiceList.size()) ? tlmiceList.get(i) : tlmiceList.getLast();
+            int orderBrzdy = (i < brzdyList.size()) ? brzdyList.get(i) : brzdyList.getLast();
+            int orderSvetla = (i < svetlaList.size()) ? svetlaList.get(i) : svetlaList.getLast();
+
+            double deliveryChance = dodavatel == 1 ? this.sampleDodavatel1(i) : this.sampleDodavatel2(i);
+            double chance = this.randDodavatel1.nextDouble();
 
             if (chance < deliveryChance) {
-                this.delivery();
+                this.delivery(orderTlmice, orderBrzdy, orderSvetla);
             }
 
             // naklady po - št
@@ -32,42 +46,29 @@ public class StrategyE extends Strategy {
         day = true;
     }
 
-    public void delivery() {
-        int avgTlmice = (Constants.TLMICE_MIN + Constants.TLMICE_MAX) / 2;
-        int avgBrzdy = (Constants.BRZDY_MIN + Constants.BRZDY_MAX) / 2;
-        int avgSvetla = 91;
+    public void loadDataFromCSV(String filePath) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            dodavatelia = new ArrayList<>();
+            tlmiceList = new ArrayList<>();
+            brzdyList = new ArrayList<>();
+            svetlaList = new ArrayList<>();
 
-        int thresholdTlmice = avgTlmice / 2;
-        int topThresholdTlmice = (int) (avgTlmice * 1.5);
-
-        int thresholdBrzdy = avgBrzdy / 2;
-        int topThresholdBrzdy = (int) (avgBrzdy * 1.5);
-
-        int thresholdSvetla = avgSvetla / 2;
-        int topThresholdSvetla = (int) (avgSvetla * 1.5);
-
-        int orderTlmice = Constants.TLMICE_COUNT;
-        int orderBrzdy = Constants.BRZDY_COUNT;
-        int orderSvetla = Constants.SVETLA_COUNT;
-
-        if (skladTlmice < thresholdTlmice) {
-            orderTlmice = (int) (Constants.TLMICE_COUNT * Constants.PERCENTAGE_EXTRA_BUY);
-        } else if (skladTlmice > topThresholdTlmice) {
-            orderTlmice = (int) (Constants.TLMICE_COUNT * Constants.PERCENTAGE_SMALLER_BUY);
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split(";");
+                if (values.length == 4) {
+                    dodavatelia.add(Integer.parseInt(values[0]));
+                    tlmiceList.add(Integer.parseInt(values[1]));
+                    brzdyList.add(Integer.parseInt(values[2]));
+                    svetlaList.add(Integer.parseInt(values[3]));
+                }
+            }
+        } catch (IOException | NumberFormatException e) {
+            System.err.println("Error reading CSV file: " + e.getMessage());
         }
+    }
 
-        if (skladBrzd < thresholdBrzdy) {
-            orderBrzdy = (int) (Constants.BRZDY_COUNT * Constants.PERCENTAGE_EXTRA_BUY);
-        } else if (skladBrzd > topThresholdBrzdy) {
-            orderBrzdy = (int) (Constants.BRZDY_COUNT * Constants.PERCENTAGE_SMALLER_BUY);
-        }
-
-        if (skladSvetla < thresholdSvetla) {
-            orderSvetla = (int) (Constants.SVETLA_COUNT * Constants.PERCENTAGE_EXTRA_BUY);
-        } else if (skladSvetla > topThresholdSvetla) {
-            orderSvetla = (int) (Constants.SVETLA_COUNT * Constants.PERCENTAGE_SMALLER_BUY);
-        }
-
+    public void delivery(int orderTlmice, int orderBrzdy, int orderSvetla) {
         skladTlmice += orderTlmice;
         skladBrzd += orderBrzdy;
         skladSvetla += orderSvetla;

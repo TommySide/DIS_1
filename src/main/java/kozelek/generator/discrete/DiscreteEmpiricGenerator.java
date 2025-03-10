@@ -7,9 +7,9 @@ import kozelek.generator.SeedGenerator;
 import java.util.Random;
 
 public class DiscreteEmpiricGenerator implements IGenerator<Integer> {
-    private DiscreteUniformGenerator[] generators;
-    private Random probRand;
-    private Distribution[] dists;
+    private final DiscreteUniformGenerator[] generators;
+    private final Random probRand;
+    private final Distribution[] dists;
 
     public DiscreteEmpiricGenerator(Distribution[] dists, SeedGenerator seedGenerator) {
         this.dists = dists;

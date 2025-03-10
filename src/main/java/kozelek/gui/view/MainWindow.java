@@ -24,11 +24,12 @@ public class MainWindow extends JFrame {
     private ChartPanel chartPanel5;
     private JLabel labelE;
     private JPanel panel;
+    private JButton fileButton;
     private JFreeChart chartA, chartB, chartC, chartD, chartE;
 
     public MainWindow() {
         setTitle("Main Window");
-        setMinimumSize(new Dimension(1500, 900));
+        setMinimumSize(new Dimension(1800, 950));
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         add(panel);
@@ -58,6 +59,7 @@ public class MainWindow extends JFrame {
                 dataset
         );
         chart.getXYPlot().getRangeAxis().setAutoRange(false);
+        chart.setID(title.substring(title.length() - 1));
         return chart;
     }
 
@@ -101,6 +103,10 @@ public class MainWindow extends JFrame {
         return new JLabel[]{labelA, labelB, labelC, labelD, labelE};
     }
 
+    public ChartPanel[] getChartPanels() {
+        return new ChartPanel[]{chartPanel1, chartPanel2, chartPanel3, chartPanel4, chartPanel5};
+    }
+
     public JButton getStartButton() {
         return startButton;
     }
@@ -111,5 +117,9 @@ public class MainWindow extends JFrame {
 
     public JTextField getFieldRepCount() {
         return fieldRepCount;
+    }
+
+    public JButton getFileButton() {
+        return fileButton;
     }
 }

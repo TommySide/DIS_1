@@ -3,7 +3,7 @@ package kozelek.generator;
 import java.util.Random;
 
 public class SeedGenerator implements IGenerator<Long> {
-    private Random random;
+    private final Random random;
 
     public SeedGenerator(long seed) {
         this.random = new Random(seed);

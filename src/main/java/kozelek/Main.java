@@ -2,8 +2,6 @@ package kozelek;
 
 import kozelek.gui.controller.MainController;
 import kozelek.gui.view.MainWindow;
-import kozelek.mc.MonteCarlo;
-import kozelek.mc.strategies.*;
 
 public class Main {
     public static void main(String[] args) {
