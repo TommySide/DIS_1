@@ -29,7 +29,7 @@ public class MainWindow extends JFrame {
 
     public MainWindow() {
         setTitle("Main Window");
-        setMinimumSize(new Dimension(1500, 900));
+        setMinimumSize(new Dimension(1800, 950));
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         add(panel);

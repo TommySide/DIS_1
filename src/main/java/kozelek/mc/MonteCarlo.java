@@ -51,6 +51,8 @@ public class MonteCarlo extends SimulationCore {
                 currentRep % (getNumberOfReps() * Constants.PERCENTAGE_UPDATE_DATA) == 0) {
             this.listener.updateChart(totalCosts, currentRep);
         }
+//        System.out.format("up %.2f\n", currentRep % (getNumberOfReps() * Constants.PERCENTAGE_UPDATE_DATA));
+//        System.out.format("cut %.2f\n", getNumberOfReps() * Constants.PERCENTAGE_CUT_DATA);
     }
 
     @Override
